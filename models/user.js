@@ -1,3 +1,6 @@
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {
@@ -18,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'user'
     })
   }
+
+  User.beforeCreate(user => {
+    return bcrypt.hash(user.password, saltRounds).then(hash => {
+      user.password = hash
+    })
+  })
 
   return User
 }
