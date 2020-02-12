@@ -4,8 +4,8 @@ function create (title, description, status, user) {
   return Task.create({ title, description, status, user })
 }
 
-function get (id) {
-  return Task.findOne({ raw: true, where: { id } })
+function get (id, user) {
+  return Task.findOne({ raw: true, where: { id, user } })
 }
 
 function getAll (user) {
@@ -13,12 +13,12 @@ function getAll (user) {
   return Task.findAll({ raw: true, where })
 }
 
-function update (title, description, status, id) {
-  return Task.update({ title, description, status }, { where: { id } })
+function update (title, description, status, id, user) {
+  return Task.update({ title, description, status }, { where: { id, user } })
 }
 
-function remove (id) {
-  return Task.destroy({ where: { id } })
+function remove (id, user) {
+  return Task.destroy({ where: { id, user } })
 }
 
 module.exports = { create, get, getAll, update, remove }

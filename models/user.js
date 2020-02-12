@@ -28,5 +28,13 @@ module.exports = (sequelize, DataTypes) => {
     })
   })
 
+  User.beforeBulkUpdate(bulk => {
+    if (bulk.attributes.password) {
+      return bcrypt.hash(bulk.attributes.password, saltRounds).then(hash => {
+        bulk.attributes.password = hash
+      })
+    }
+  })
+
   return User
 }
