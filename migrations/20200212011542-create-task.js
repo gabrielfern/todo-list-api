@@ -23,6 +23,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: { len: [4, 32] },
+        onDelete: 'cascade',
         references: {
           model: 'Users',
           key: 'username'
