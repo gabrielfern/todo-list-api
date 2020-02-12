@@ -1,0 +1,12 @@
+{
+  "development": {
+    "username": "todo_list_user",
+    "password": null,
+    "database": "todo_list_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}

@@ -4,7 +4,9 @@
   "license": "ISC",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "sequelize-cli db:migrate && node server.js",
+    "create-db": "sequelize-cli db:create",
+    "drop-db": "sequelize-cli db:drop",
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
