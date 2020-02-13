@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const userService = require('../services/user')
+const { auth } = require('./token')
 
 router.post('/', (req, res) => {
   userService.create(req.body.username, req.body.password).then(user => {
@@ -29,19 +30,30 @@ router.get('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
-  userService.update(req.username, req.body.password).then(() => {
+  auth(req.body.username, req.body.password).then(user => {
+    const { password } = req.body.values
+    return userService.update(user.username, password).then(() => {
+      res.end()
+    })
+  }).catch(err => {
+    if (err.message === 'UserAuthFailed') res.status(401)
+    else if (err.message === 'UserNotFound') res.status(404)
+    else res.status(500)
     res.end()
-  }).catch(() => {
-    res.status(500).end()
   })
 })
 
 router.delete('/', (req, res) => {
-  userService.remove(req.username).then(result => {
-    if (!result) res.status(404)
+  auth(req.body.username, req.body.password).then(user => {
+    return userService.remove(user.username).then(result => {
+      if (!result) res.status(404)
+      res.end()
+    })
+  }).catch(err => {
+    if (err.message === 'UserAuthFailed') res.status(401)
+    else if (err.message === 'UserNotFound') res.status(404)
+    else res.status(500)
     res.end()
-  }).catch(() => {
-    res.status(500).end()
   })
 })
 

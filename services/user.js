@@ -16,8 +16,12 @@ function update (username, password) {
   return User.update({ password }, { where: { username } })
 }
 
+function refreshUpdatedAt (username) {
+  return User.update({ username }, { where: { username } })
+}
+
 function remove (username) {
   return User.destroy({ where: { username } })
 }
 
-module.exports = { create, get, getAll, update, remove }
+module.exports = { create, get, getAll, update, refreshUpdatedAt, remove }

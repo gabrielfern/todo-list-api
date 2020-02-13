@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express()
-const { auth, validate } = require('./controllers/auth')
+const token = require('./controllers/token')
 const userRoutes = require('./controllers/user')
 const taskRoutes = require('./controllers/task')
 
 app.use(express.json())
-app.use(validate)
+app.use(token.validate)
 app.use('/users', userRoutes)
 app.use('/tasks', taskRoutes)
-app.post('/auth', auth)
+app.use('/tokens', token.router)
 
 app.listen(process.env.PORT || 3000)
